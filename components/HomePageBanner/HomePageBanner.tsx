@@ -6,13 +6,7 @@ interface BannerProps {
 }
 
 export const HomePageBanner: FC<BannerProps> = ({ heading }) => (
-  <Container
-    maxW="container.m"
-    bgGradient="linear(to-l, #FF0080,  #7928CA)"
-    h="30vh"
-    margin="200px auto"
-    boxShadow="dark-lg"
-  >
+  <Container maxW="container.m" bg="lightcoral" h="30vh" margin="200px auto" boxShadow="dark-lg">
     <Box
       padding="4"
       maxW="fit-content"
