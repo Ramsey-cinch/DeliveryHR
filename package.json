@@ -9,14 +9,19 @@
     "start:prod": "next start",
     "test": "jest --changedSince main",
     "test:all": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "yarn build && cross-env NODE_ENV=production firebase deploy --only functions,hosting"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.14",
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "cross-env": "^7.0.3",
+    "firebase-admin": "^9.11.1",
+    "firebase-functions": "^3.15.5",
     "framer-motion": "^4",
+    "isomorphic-unfetch": "^3.1.0",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
