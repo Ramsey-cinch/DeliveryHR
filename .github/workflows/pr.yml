@@ -20,3 +20,28 @@ jobs:
         run: yarn eslint
       - name: Test
         run: yarn test:all
+      - name: Cache build
+        uses: actions/upload-artifact@v2
+        with:
+          name: out
+          path: out
+
+  deploy_preview:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    name: Deploy deploy_preview
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Retrieve build
+        uses: actions/download-artifact@v2
+        with:
+          name: out
+          path: out
+      - run: >-
+          yarn next export
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DELIVERYHR }}'
+          projectId: deliveryhr
