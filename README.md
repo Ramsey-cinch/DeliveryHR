@@ -1,17 +1,67 @@
-# Typescript Template for React
+# DeliveryHR
 
-[![Actions Status](https://github.com/MarkSFrancis/ts-react-template/workflows/Build/badge.svg)](https://github.com/MarkSFrancis/ts-react-template/actions)
+A holiday request tool
 
-## Features
+## Usage
 
-1. [Typescript](https://www.typescriptlang.org/)
-1. Hot reload (using [NextJS](https://nextjs.org/))
-1. [React](https://reactjs.org/)
-1. [CSS in JS](https://en.wikipedia.org/wiki/CSS-in-JS) (using [Emotion](https://emotion.sh/) and [Chakra UI](https://chakra-ui.com/))
-1. Linter (using [eslint](https://eslint.org/))
-1. Formatter (using [prettier](https://prettier.io/))
-1. Testing (using [@testing-library/react](https://testing-library.com/))
-1. Auto-package install on pull (using [husky](https://typicode.github.io/husky))
-1. Auto-lint on commit (using [lint-staged](https://github.com/okonet/lint-staged))
-1. Auto-test on push (using [husky](https://typicode.github.io/husky))
-1. Auto-update dependencies via PRs (using [Dependabot](https://dependabot.com/))
+Easily manage your squads holiday requests by using DeliveryHR.
+
+### Key features
+
+- Secure login with user roles
+- Squad Members
+  - Request holidays
+  - View the status of holiday requests
+- Squad leads
+  - Manage all holiday requests
+  - See all holidays requests
+
+---
+
+## To run the app locally
+
+<br>
+
+Clone the DeliveryHR repo
+
+```bash
+$ git clone https://github.com/Ramsey-cinch/DeliveryHR.git
+```
+
+Install app dependencies
+
+```bash
+$ yarn install
+```
+
+Install firebase dependencies
+
+```bash
+$ cd functions && yarn install
+```
+
+---
+
+### Deploying to firebase
+
+First you will have to set up and app within firebase, this is really easy to do, just follow [this guide](https://firebase.google.com/docs/hosting/quickstart)
+
+Once setup on firebase you can login via the CLI
+
+```bash
+$ firebase login
+```
+
+To deploy the site to firebase hosting run these commands
+
+This command will build the production version of the app and export it ready to be hosted as a static site
+
+```bash
+$ yarn build && yarn next export
+```
+
+This command will then deploy your static site to firebase
+
+```bash
+$ firebase deploy
+```
