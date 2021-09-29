@@ -1,9 +1,8 @@
 import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
-import 'firebase/auth'
-import 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
-const credentials = {
+const FIREBASE_CREDENTIALS = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -13,8 +12,14 @@ const credentials = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 }
 
-// Initialize Firebase
-const app = initializeApp(credentials)
-const analytics = getAnalytics(app)
+const firebaseApp = initializeApp(FIREBASE_CREDENTIALS)
+const firestore = getFirestore(firebaseApp)
+const auth = getAuth(firebaseApp)
 
-export { app, analytics }
+export const firebaseClient = () => {
+  return {
+    firebaseApp,
+    firestore,
+    auth,
+  }
+}

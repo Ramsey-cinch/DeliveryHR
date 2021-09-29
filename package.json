@@ -8,7 +8,7 @@
     "build:static": "next build && next export",
     "start:prod": "next start",
     "test": "jest --changedSince main",
-    "test:all": "jest",
+    "test:all": "jest --coverage",
     "prepare": "husky install",
     "deploy": "yarn build && cross-env NODE_ENV=production firebase deploy --only functions,hosting"
   },
@@ -22,7 +22,6 @@
     "firebase-admin": "^9.11.1",
     "firebase-functions": "^3.15.5",
     "framer-motion": "^4",
-    "isomorphic-unfetch": "^3.1.0",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -30,6 +29,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^26.0.24",
     "@types/react": "^17.0.16",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
