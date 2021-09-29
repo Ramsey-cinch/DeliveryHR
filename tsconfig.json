@@ -21,7 +21,8 @@
       "@Firebase/*": ["firebaseConfig/*"],
       "@Firebase-api/*": ["src/api/*"],
       "@Context/*": ["src/context/*"],
-      "@Provider/*": ["src/provider/*"]
+      "@Provider/*": ["src/provider/*"],
+      "@Pages/*": ["pages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./setup-tests.ts", "functions/src/index.ts"],

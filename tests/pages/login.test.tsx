@@ -1,4 +1,4 @@
-import Login from './login.component'
+import Login from '@Pages/login'
 import { render, fireEvent } from '@testing-library/react'
 
 const mockFirebaseLogin = jest.fn()

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import Dashboard from './dashboard.component'
+import Dashboard from '@Pages/dashboard'
 
 jest.mock('next/router', () => ({
   useRouter() {

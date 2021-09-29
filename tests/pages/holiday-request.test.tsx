@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import HolidayRequest from './holiday-request.component'
+import HolidayRequest from '@Pages/holiday-request'
 
 jest.mock('next/router', () => ({
   useRouter() {

@@ -1,4 +1,4 @@
-import Signup from './signup.component'
+import Signup from '@Pages/signup'
 import { render, fireEvent } from '@testing-library/react'
 import nextRouter from 'next/router'
 
