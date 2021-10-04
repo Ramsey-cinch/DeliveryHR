@@ -5,7 +5,7 @@ interface BannerProps {
   heading: string
 }
 
-export const HomePageBanner: FC<BannerProps> = ({ heading }) => (
+const HomePageBanner: FC<BannerProps> = ({ heading }) => (
   <Container maxW="container.m" bg="lightcoral" h="30vh" margin="200px auto" boxShadow="dark-lg">
     <Box
       padding="4"
@@ -20,3 +20,5 @@ export const HomePageBanner: FC<BannerProps> = ({ heading }) => (
     </Box>
   </Container>
 )
+
+export default HomePageBanner

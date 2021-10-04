@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { HomePageBanner } from './HomePageBanner'
 import { ChakraProvider } from '@chakra-ui/react'
+
+import HomePageBanner from './HomePageBanner.component'
 
 describe('HomePageBanner', () => {
   it('Should render homepage banner', () => {
