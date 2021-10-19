@@ -1,4 +1,4 @@
-name: Production Build
+name: Production
 
 on:
   push:
@@ -32,3 +32,18 @@ jobs:
         run: yarn eslint
       - name: Test
         run: yarn test:all
+
+  prod_deploy:
+    runs-on: ubuntu-latest
+    if: needs.build.result == 'success'
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - run: >-
+          yarn install --frozen-lockfile --non-interactive && yarn build:static
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DELIVERYHR }}'
+          channelId: live
+          projectId: deliveryhr
