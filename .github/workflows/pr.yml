@@ -1,4 +1,4 @@
-name: PR Build
+name: PR
 
 on: pull_request
 
@@ -29,3 +29,17 @@ jobs:
         run: yarn eslint
       - name: Test
         run: yarn test:all
+
+  preview:
+    if: needs.build.result == 'success' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: >-
+          yarn install --frozen-lockfile --non-interactive && yarn build:static
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DELIVERYHR }}'
+          projectId: '${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}'
