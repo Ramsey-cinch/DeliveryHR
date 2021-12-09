@@ -1,12 +1,13 @@
 import { withProtection } from '@Services/withProtection'
 import { useRequests } from '@Context/requestContext'
+import HolidayScheduler from '@Components/HolidayScheduler'
 
 const Dashboard = () => {
   const { holidayRequests } = useRequests()
 
   return (
     <>
-      <div>{holidayRequests && <p>Holiday requests made</p>}</div>
+      {holidayRequests && <HolidayScheduler />}
       <div>{!holidayRequests && <p>No Holiday requests made</p>}</div>
     </>
   )
