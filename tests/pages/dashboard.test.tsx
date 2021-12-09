@@ -1,6 +1,9 @@
 import { render } from '@testing-library/react'
 import Dashboard from '@Pages/dashboard'
 
+let mockAuthedUser: string | null = '12345'
+let mockHolidayRequests = []
+
 jest.mock('next/router', () => ({
   useRouter() {
     return {
@@ -9,8 +12,6 @@ jest.mock('next/router', () => ({
   },
 }))
 
-let mockAuthedUser: string | null = '12345'
-
 jest.mock('@Context/AuthContext', () => ({
   useAuth: () => ({
     authedUser: mockAuthedUser,
@@ -18,21 +19,29 @@ jest.mock('@Context/AuthContext', () => ({
   }),
 }))
 
+jest.mock('@Context/requestContext', () => ({
+  useRequests: () => ({
+    holidayRequests: mockHolidayRequests,
+  }),
+}))
+
 describe('Dashboard', () => {
-  afterEach(() => {
+  beforeEach(() => {
+    jest.clearAllMocks()
     mockAuthedUser = '12345'
   })
 
   it('renders the dashboard page when a user is logged in', () => {
     const { getByText } = render(<Dashboard />)
 
-    expect(getByText('Dashboard')).toBeInTheDocument()
+    expect(getByText('Holiday requests made')).toBeInTheDocument()
   })
 
   it('Does not render the dashboard page when a user has not logged in', () => {
     mockAuthedUser = null
+    mockHolidayRequests = null
     const { queryByText } = render(<Dashboard />)
 
-    expect(queryByText('Dashboard')).not.toBeInTheDocument()
+    expect(queryByText('No Holiday requests made')).not.toBeInTheDocument()
   })
 })

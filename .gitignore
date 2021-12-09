@@ -37,3 +37,6 @@ yarn-error.log*
 
 .firebase
 secrets.json
+
+# general notes to help me pick up from where i left off
+dev-notes.md

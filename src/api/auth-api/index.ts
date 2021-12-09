@@ -15,6 +15,7 @@ export class AuthApi extends FirebaseApi {
     const { user } = await createUserWithEmailAndPassword(this.auth, email, password)
 
     this.user = user
+
     if (this.user) {
       await this.addFirestoreUser({ username, role: this.defaultSetupRole, email, firstName, lastName, squad })
     }
