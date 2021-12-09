@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { firebaseClient } from '@Firebase/firebaseClient'
 
+interface IAuthedUser {
+  uid: string
+  email: string
+}
+
 export default function useFirebaseAuth() {
   const { auth } = firebaseClient()
-  const [authedUser, setAuthedUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [authedUser, setAuthedUser] = useState<IAuthedUser | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
   const authStateChanged = async (authState) => {
     if (!authState) {
