@@ -1,9 +1,10 @@
 import { Table, Thead, Tr, Th, Tbody, Td, Tfoot } from '@chakra-ui/table'
 import { Box } from '@chakra-ui/layout'
+import { TableDecorator } from './utils/tableDecorator'
+import { useEffect, useState } from 'react'
 
 const mockedTableData = {
   tableHeader: ['Name', 19, 20, 21, 22, 23],
-  days: [0, 1, 2, 3, 4],
   tableBody: [
     {
       name: 'Ramsey',
@@ -32,46 +33,63 @@ const mockedTableData = {
     },
     {
       name: 'Kay',
-      datesOff: [],
-      pendingHolidays: [],
     },
   ],
 }
 const backgroundColor = (pendingHolidays, approvedHolidays, day): string => {
-  const colour = pendingHolidays.includes(day) ? 'lightgrey' : approvedHolidays.includes(day) ? 'green' : ''
+  let colour = ''
+
+  if (approvedHolidays) {
+    const hasApproved = approvedHolidays.some((date) => date.includes(day))
+    colour = hasApproved ? 'rgba(255,123,123,0.4)' : ''
+  }
 
   return colour
 }
 
 const HolidayScheduler: React.FC = () => {
+  const tableDecorator = new TableDecorator()
+  const [results, setResults] = useState<any>()
+  const getData = async () => {
+    const data = await tableDecorator.getTableData()
+
+    setResults(data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <Box margin="10px" border="1px solid lightgrey" borderRadius="16px">
       <Table variant="simple">
         <Thead justifyContent="space-evenly">
           <Tr>
-            {mockedTableData.tableHeader.map((heading) => (
-              <Th textAlign="center" key={`heading-${heading}`}>
-                {heading}
-              </Th>
-            ))}
+            {results &&
+              results.tableHeader.map((heading) => (
+                <Th textAlign="center" key={`heading-${heading}`}>
+                  {heading}
+                </Th>
+              ))}
           </Tr>
         </Thead>
 
         <Tbody>
-          {mockedTableData.tableBody.map((row, ind) => (
-            <Tr key={`day-${row.name}`}>
-              <Td textAlign="center" width="10px" height="25px">
-                {row.name}
-              </Td>
-              {mockedTableData.tableHeader.slice(1).map((day) => (
-                <Td
-                  borderLeft={'1px solid lightgrey'}
-                  key={`day-row${day}`}
-                  backgroundColor={backgroundColor(row.pendingHolidays, row.datesOff, day)}
-                />
-              ))}
-            </Tr>
-          ))}
+          {results &&
+            results.tableBody.map((row) => (
+              <Tr key={`day-${row.id}`}>
+                <Td textAlign="center" width="10px" height="25px">
+                  {row.name}
+                </Td>
+                {results.tableHeader.slice(1).map((day) => (
+                  <Td
+                    borderLeft={'1px solid lightgrey'}
+                    key={`day-row${day}`}
+                    backgroundColor={backgroundColor(row.pendingHolidays, row.datesOff, day)}
+                  />
+                ))}
+              </Tr>
+            ))}
         </Tbody>
 
         <Tfoot>
