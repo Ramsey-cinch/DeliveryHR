@@ -32,9 +32,9 @@ describe('Dashboard', () => {
   })
 
   it('renders the dashboard page when a user is logged in', () => {
-    const { getByText } = render(<Dashboard />)
+    const { getByRole } = render(<Dashboard />)
 
-    expect(getByText('Holiday requests made')).toBeInTheDocument()
+    expect(getByRole('table')).toBeInTheDocument()
   })
 
   it('Does not render the dashboard page when a user has not logged in', () => {

@@ -2,6 +2,7 @@ import { addBusinessDays } from 'date-fns'
 import { FirebaseApi } from '../firebase-api'
 import { collection, doc, query, where, setDoc, getDocs, getDoc } from 'firebase/firestore'
 import { DocumentData } from '@google-cloud/firestore'
+import { id } from 'date-fns/locale'
 
 export interface SignupProps {
   email: string
@@ -62,5 +63,54 @@ export class FirestoreApi extends FirebaseApi {
     const contractualHours = 7.5
 
     return contractualHours * days + hours
+  }
+
+  public async getAllApprovedHolidayRequests({ weekStart, weekEnd }) {
+    const holidayCollectionRef = await collection(this.firestore, 'holidays')
+    const q = query(
+      holidayCollectionRef,
+      where('from', '>=', weekStart.toISOString()),
+      where('from', '<=', weekEnd.toISOString()),
+    )
+    const querySnapshot = await getDocs(q)
+    const holidayRequests = await querySnapshot.docs.map((request) => request.data())
+    const approvedOnlyRequests = holidayRequests.filter((holidayRequest) => holidayRequest.status === 'approved')
+    const userDetailsMapped = Promise.all(
+      approvedOnlyRequests.map(async (request) => {
+        const userDetails = await getDoc(request.user)
+
+        return {
+          ...request,
+          user: userDetails.data(),
+          id: request.user.id,
+        }
+      }),
+    )
+
+    return userDetailsMapped
+  }
+
+  public async getAllPendingHolidayRequests() {
+    const holidayCollectionRef = await collection(this.firestore, 'holidays')
+    const q = query(holidayCollectionRef, where('status', '==', 'pending'))
+    const querySnapshot = await getDocs(q)
+    const holidayRequests = await querySnapshot.docs.map((request) => request.data())
+
+    return holidayRequests
+  }
+
+  private async getAllUserDetails() {
+    const userCollectionRef = await collection(this.firestore, 'users')
+    const usersDocs = await getDocs(userCollectionRef)
+    const userDetails = usersDocs.docs.map((user) => ({ userId: user.id, ...user.data() }))
+
+    return this.sanitiseUserDetails(userDetails)
+  }
+
+  protected sanitiseUserDetails = (userDetails) => {
+    return userDetails.map((user) => ({
+      id: user.userId,
+      name: `${user.firstName} ${user.lastName.slice(0, 1)}`,
+    }))
   }
 }
